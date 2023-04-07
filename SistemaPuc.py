@@ -45,8 +45,8 @@ def menu_estudante():
         print("***** [ESTUDANTES] MENU DE OPERAÇÕES *****")
         print("1 - Incluir.")
         print("2 - Listar.")
-        print("3 - Atualizar.")
-        print("4 - Excluir.")
+        print("3 - Excluir.")
+        print("4 - Atualizar.")
         print("9 - Voltar ao menu principal.")
 
         opcao = input("Informe a ação desejada: ")
@@ -71,10 +71,12 @@ def menu_estudante():
 
 def incluir_estudante():
     # Implementar a funcionalidade de incluir um novo estudante aqui
+    codigo = input("Informe o código do estudante: ")
     nome = input("Informe o nome do estudante: ")
-    estudantes.append(nome)
-    print("Nome adicionado com sucesso!")
-
+    cpf = input("Informe o CPF do estudante: ")
+    estudante = {"codigo": codigo, "nome": nome, "cpf": cpf}
+    estudantes.append(estudante)
+    print("Estudante adicionado com sucesso!")
 
 def listar_estudantes():
     print("===== LISTAGEM ======")
@@ -86,14 +88,35 @@ def listar_estudantes():
 
 
 def excluir_estudante():
-    # A implementar função de excluir estudante
-    print("EM DESENVOLVIMENTO")
-
+        # Implementar a funcionalidade de excluir um estudante aqui
+        codigo = input("Informe o código do estudante que deseja excluir: ")
+        encontrado = False
+        for estudante in estudantes:
+            if estudante['codigo'] == codigo:
+                estudantes.remove(estudante)
+                encontrado = True
+                break
+        if encontrado:
+            print("Estudante removido com sucesso!")
+        else:
+            print("Estudante não encontrado na lista.")
 
 def alterar_estudante():
-    # A implementar a funcionalidade de alterar os dados de um estudante
-    print("EM DESENVOLVIMENTO")
-
+    # Implementar a funcionalidade de editar um estudante aqui
+    codigo = input("Informe o código do estudante que deseja editar: ")
+    encontrado = False
+    for estudante in estudantes:
+        if estudante['codigo'] == codigo:
+            nome = input("Informe o novo nome do estudante: ")
+            cpf = input("Informe o novo CPF do estudante: ")
+            estudante['nome'] = nome
+            estudante['cpf'] = cpf
+            encontrado = True
+            break
+    if encontrado:
+        print("Estudante editado com sucesso!")
+    else:
+        print("Estudante não encontrado na lista.")
 
 def menu_disciplina():
     print("EM DESENVOLVIMENTO")
