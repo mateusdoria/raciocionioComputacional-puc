@@ -1,3 +1,5 @@
+import json
+
 # Dicionários para armazenar informações
 estudantes = []
 disciplinas = []
@@ -5,6 +7,17 @@ professores = []
 turmas = []
 matriculas = []
 
+def salvar_estudante():
+    with open('estudantes.json', 'w') as arquivo:
+        json.dump(estudantes, arquivo)
+
+def carregar_estudante():
+    global estudantes
+    try:
+        with open('estudantes.json', 'r') as arquivo:
+            estudantes = json.load(arquivo)
+    except FileNotFoundError:
+        estudantes = []
 
 # Função para exibir o menu de opções
 def menu():
@@ -76,47 +89,42 @@ def incluir_estudante():
     cpf = input("Informe o CPF do estudante: ")
     estudante = {"codigo": codigo, "nome": nome, "cpf": cpf}
     estudantes.append(estudante)
+    salvar_estudante()
     print("Estudante adicionado com sucesso!")
 
 def listar_estudantes():
     print("===== LISTAGEM ======")
-    if len(estudantes) == 0:
-        print("Não há estudantes cadastrados")
+    if not estudantes:
+        print("Não há estudantes cadastrados.")
     else:
-        for nome in estudantes:
-            print(nome)
+        for estudante in estudantes:
+            print(f"Código: {estudante['codigo']}, Nome: {estudante['nome']}, CPF: {estudante['cpf']}")
 
 
 def excluir_estudante():
         # Implementar a funcionalidade de excluir um estudante aqui
         codigo = input("Informe o código do estudante que deseja excluir: ")
-        encontrado = False
         for estudante in estudantes:
             if estudante['codigo'] == codigo:
                 estudantes.remove(estudante)
-                encontrado = True
-                break
-        if encontrado:
-            print("Estudante removido com sucesso!")
-        else:
-            print("Estudante não encontrado na lista.")
+                salvar_estudante()
+                print("Estudante removido com sucesso!")
+                return
+            print("Estudante não encontrado.")
 
 def alterar_estudante():
     # Implementar a funcionalidade de editar um estudante aqui
     codigo = input("Informe o código do estudante que deseja editar: ")
-    encontrado = False
     for estudante in estudantes:
         if estudante['codigo'] == codigo:
-            nome = input("Informe o novo nome do estudante: ")
-            cpf = input("Informe o novo CPF do estudante: ")
+            nome = input(f"Informe o novo nome para o estudante {codigo}: ")
+            cpf = input(f"Informe o novo CPF para o estudante {codigo}: ")
             estudante['nome'] = nome
             estudante['cpf'] = cpf
-            encontrado = True
-            break
-    if encontrado:
-        print("Estudante editado com sucesso!")
-    else:
-        print("Estudante não encontrado na lista.")
+            salvar_estudante()
+            print("Estudante alterado com sucesso!")
+            return
+    print("Estudante não encontrado.")
 
 def menu_disciplina():
     print("EM DESENVOLVIMENTO")
